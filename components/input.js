@@ -1,19 +1,29 @@
 import React from "react";
 import {View,Text,TextInput,StyleSheet,TouchableOpacity} from "react-native";
+import { connect } from "react-redux";
+import {addTodo} from "../redux/actionCreator";
 
-export default function Input (props){
+function Input (props){
+    const[input ,setInput] = React.useState("");
+    const handleChange=(value)=>{
+        setInput(value);
+    };
+    const handlePress=()=>{
+        props.addTodo(input);
+        setInput("");
+    };
 
     return(
         <View style ={styles.inputArea}>
             <TextInput
              style={styles.input}
-             value={props.input}
-             onChangeText={(value)=>{props.handleChange(value)}}
+             value={input}
+             onChangeText={(value)=>{handleChange(value)}}
              >
             </TextInput>
             <TouchableOpacity
                 style = {styles.button}
-                onPress={props.handlePress}
+                onPress={handlePress}
             >
                 <Text style ={styles.buttonText}>
                     Add
@@ -54,3 +64,5 @@ const styles = StyleSheet.create({
 
     }
 })
+
+export default connect(null,{addTodo})(Input)
